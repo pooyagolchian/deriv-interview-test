@@ -14,19 +14,24 @@ Built to be extended, not thrown away. See [`docs/adr/`](docs/adr/) for the desi
 
 ```bash
 # 1. (optional) create a venv with the dev/LLM deps
-make venv                      # or: python -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+make venv                      # or: python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
 
 # 2. regenerate every artifact from kb.json / queries.json / candidate_answers.json
-python run.py                  # uses the real LLM if a key is set, else a deterministic stub
+python3 run.py                 # uses the real LLM if a key is set, else a deterministic stub
 
 # 3. validate artifacts + recommendation reproducibility
-python validate.py
+python3 validate.py
 
 # 4. run the tests
-python -m pytest
+python3 -m pytest
 ```
 
-`make all` runs `run` + `validate` + `test`. The **core pipeline needs no third-party
+> On macOS the interpreter is `python3` (there is no bare `python`). If you've activated the
+> venv (`source .venv/bin/activate`), plain `python` works too.
+
+`make all` runs `run` + `validate` + `test` and is interpreter-agnostic (it defaults to
+`python3` and auto-prefers `.venv`), so `make run` / `make validate` / `make test` work without
+any alias. The **core pipeline needs no third-party
 packages** — retrieval, checks, aggregation, reporting, and validation are pure standard
 library, so `python run.py` works from a clean checkout. `anthropic` and `pytest` are only
 needed for the real LLM call and the tests.
@@ -44,7 +49,7 @@ cp .env.example .env
 - **No key / SDK / offline** → a deterministic **stub** derives review scores from the rule
   signals, so the pipeline still produces every artifact.
 
-Override with `python run.py --provider stub` (force offline) or `--model <id>`, or the env
+Override with `python3 run.py --provider stub` (force offline) or `--model <id>`, or the env
 vars `EVAL_LLM_PROVIDER` / `EVAL_LLM_MODEL`.
 
 ---
