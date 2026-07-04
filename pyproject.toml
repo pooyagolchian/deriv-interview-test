@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rag-eval-harness"
+version = "0.1.0"
+description = "Deterministic, replayable offline evaluator for retrieval-augmented QA prompt variants."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+# Core pipeline (retrieval, rule checks, aggregation, reporting, validation) uses the
+# standard library ONLY, so `python run.py` works from a clean checkout with no installs.
+dependencies = []
+
+[project.optional-dependencies]
+# Only needed to make the ONE real LLM review call. Without it, the pipeline uses a
+# deterministic stub and still produces every artifact.
+llm = ["anthropic>=0.40"]
+dev = ["anthropic>=0.40", "pytest>=8.0"]
+
+[tool.setuptools]
+packages = ["evalharness"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

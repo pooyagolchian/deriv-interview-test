@@ -1,0 +1,101 @@
+# ==============================================================
+# Secrets & credentials — NEVER commit
+# ==============================================================
+# Environment / dotenv files (allow the shareable template only)
+.env
+.env.*
+*.env
+!.env.example
+!.env.sample
+!.env.template
+
+# API keys, tokens, generic secret files
+*.secret
+*.secrets
+secrets.*
+*secret*.json
+*credential*.json
+credentials
+credentials.*
+.credentials/
+*_token
+*.token
+token.json
+auth.json
+service-account*.json
+gcp-*.json
+
+# Private keys & certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.pkcs12
+*.keystore
+*.jks
+*.der
+*.crt
+*.cer
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+*.ppk
+
+# Cloud / package-manager credential files
+.aws/
+.azure/
+.gcloud/
+.npmrc
+.pypirc
+.netrc
+
+# Local tool/editor overrides that may hold secrets
+.claude/settings.local.json
+*.local.json
+!skills-lock.json
+
+# ==============================================================
+# Python
+# ==============================================================
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+.python-version
+
+# ==============================================================
+# Generated evaluation artifacts (reproducible via `python run.py`)
+# ==============================================================
+retrieval.json
+automated_scores.json
+llm_review.json
+recommendation.md
+recommendation.json
+review_report.md
+failure_taxonomy.json
+llm_calls.jsonl
+
+# ==============================================================
+# Methodology / working docs
+# ==============================================================
+aidlc-docs/
+
+# ==============================================================
+# OS / editor cruft
+# ==============================================================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
