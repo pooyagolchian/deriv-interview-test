@@ -139,7 +139,7 @@ def derive_stub_reviews(contexts: List[dict], cfg: config.EvalConfig) -> Dict[st
 def _extract_json(text: str) -> Optional[dict]:
     if not text:
         return None
-    fence = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL)
+    fence = re.search(r"```(?:json)?\s*(\{.*\})\s*```", text, re.DOTALL)
     candidate = fence.group(1) if fence else None
     if candidate is None:
         start, end = text.find("{"), text.rfind("}")
@@ -156,10 +156,12 @@ def _call_anthropic(prompt: str, model: str, api_key: str) -> str:
     import anthropic  # imported lazily so the stub path needs no dependency
 
     client = anthropic.Anthropic(api_key=api_key)
+    # Note: newer Claude models (Sonnet 5, Opus 4.x, ...) deprecate `temperature`, so we do
+    # not send it. Determinism of the *recommendation* does not depend on LLM sampling — the
+    # aggregation is reproducible from the stored llm_review.json regardless (see ADR-0006).
     resp = client.messages.create(
         model=model,
         max_tokens=2000,
-        temperature=0,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": prompt}],
     )
